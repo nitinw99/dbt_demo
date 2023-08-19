@@ -1,3 +1,9 @@
+WITH source AS (
+    SELECT * FROM {{ source('stripe', 'payment')}}
+)
+,
+
+stagged AS (
 select
     id as payment_id,
     orderid as order_id,
@@ -8,4 +14,7 @@ select
     amount / 100 as amount,
     created as created_at
 
-from `dbt-tutorial`.stripe.payment
+from source
+)
+
+SELECT * FROM stagged
